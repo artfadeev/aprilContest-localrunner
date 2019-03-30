@@ -13,8 +13,8 @@ class MapWidget(QWidget):
 
 
     def initUI(self):
-        self.setMinimumSize(444, 444)
-        self.setMaximumSize(444, 444)
+        self.setMinimumSize(461, 461)
+        self.setMaximumSize(461, 461)
 
     def paintEvent(self, e):
         qp = QPainter()
@@ -63,13 +63,27 @@ class MapWidget(QWidget):
 
     def drawWidget(self, qp):
         size = self.size()
-
-        qp.setBrush(QColor(255,255,255))
-        qp.drawRect(0,0,size.width(), size.height())
-
-        margin = 2
+        margin = 17
         padding = 2
         cell_size = 15
+
+
+        qp.setPen(Qt.NoPen)
+        #qp.setBrush(QColor(255,255,255))
+        qp.drawRect(margin,margin,size.width()-margin-padding, size.height()-margin-padding)
+
+        qp.setPen(QColor(0,0,0))
+        qp.setFont(QFont('Serif', 10, QFont.Light))
+        metrics = qp.fontMetrics()
+
+        for i in range(26):
+            letter = chr(ord('a')+i)
+            w = metrics.width(letter)
+            #h = metrics.height(letter)
+            qp.drawText(margin+i*(cell_size+padding)+(cell_size//2)-(w//2), margin-padding, letter)
+            qp.drawText(cell_size//2-w//2, margin+(i+1)*(padding+cell_size)-padding-2, letter)
+
+        qp.setPen(Qt.NoPen)
 
         for i in range(26):
             for j in range(26):
